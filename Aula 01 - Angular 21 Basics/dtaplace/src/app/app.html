@@ -1,5 +1,5 @@
-<input type="date" [(ngModel)]="_date" />
+<input type="date" [value]="_stringDate()" (change)="onDateChange($event)" />
 
-{{ _date() }}
+{{ _stringDate() }}
 
 <router-outlet />

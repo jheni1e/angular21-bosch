@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, Signal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 
@@ -13,13 +13,23 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   protected readonly title = signal('dtaplace');
-  protected _date = signal(this.formatDate(new Date()));
+  protected _date = signal(new Date());
+
+  protected _stringDate: Signal<string> = computed(() => { //resultado que se atualiza sozinho quando os dados mudam derivado de um signal
+    return this._date().toISOString().split('T')[0];
+  })
 
   ngOnInit() {
     console.log(this.title()) //mostra 'dtaplace'
+    console.log(`${this._date().getFullYear()}-${this._date().getMonth()}-${this._date().getDate()}`)
   }
 
   formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
+  }
+
+  onDateChange(e: Event) {
+    const value = (e.target as HTMLInputElement).value;
+    this._date.set(new Date(value));
   }
 }
