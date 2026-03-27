@@ -1,5 +1,7 @@
-<input type="date" [value]="_stringDate()" (change)="onDateChange($event)" />
+<button (click)="addDay(false)">-</button>
 
 {{ _stringDate() }}
+
+<button (click)="addDay()">+</button>
 
 <router-outlet />
