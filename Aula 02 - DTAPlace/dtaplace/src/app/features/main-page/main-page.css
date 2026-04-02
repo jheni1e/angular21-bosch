@@ -5,3 +5,6 @@
     margin-top: 60px;
 }
 
+.header-buttons {
+    gap: 1rem;
+}
