@@ -1,9 +1,10 @@
 <div class="main-container">
     <div class="header-buttons">
-        <button-info label="Register" [action]="salvar" />
-        <button-info label="Login" [action]="salvar" />
-        <button-info label="..." [action]="salvar" />
-    </div>
+        <h1>DTAPlace</h1>
+        <button-info label="Register" [action]="goToRegister"></button-info>
+        <button-info label="Login" [action]="goToLogin"></button-info>
+        <button-info label="..." [action]="salvar"></button-info>
+    </div>  
     
     <router-outlet></router-outlet>
 </div>

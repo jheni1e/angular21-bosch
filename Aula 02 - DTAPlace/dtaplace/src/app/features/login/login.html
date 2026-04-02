@@ -1,1 +1,13 @@
-<p>login works!</p>
+<div class="container">
+  <div class="card">
+    <h1>Login</h1>
+
+    <label>Username</label>
+    <input type="text" placeholder="Enter your username" (change)="userChanged($event)" />
+
+    <label>Password</label>
+    <input type="password" placeholder="Enter your password" (change)="pwChanged($event)" />
+
+    <button (click)="submit()">Enter</button>
+  </div>
+</div>

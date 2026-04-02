@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ButtonInfo } from '../../shared/button-info/button-info';
 
 @Component({
@@ -10,7 +10,17 @@ import { ButtonInfo } from '../../shared/button-info/button-info';
   styleUrl: './main-page.css',
 })
 export class MainPage {
-  salvar() {
-    console.log('Salvando...');
+  constructor(private router: Router) { }
+
+  goToRegister = () => {
+    this.router.navigate(['/register']);
+  }
+
+  goToLogin = () => {
+    this.router.navigate(['/login']);
+  }
+
+  salvar = () => {
+    console.log("...");
   }
 }
