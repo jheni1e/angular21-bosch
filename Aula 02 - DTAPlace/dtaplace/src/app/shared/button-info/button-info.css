@@ -16,7 +16,7 @@ button {
     cursor: pointer;
     transition: background-color 0.2s;
     user-select: none;
-    margin: 10px;''
+    margin: 10px;
 }
 
 button:hover {
