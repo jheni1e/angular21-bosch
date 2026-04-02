@@ -1,10 +1,12 @@
 <div class="main-container">
-    <div class="header-buttons">
-        <h1>DTAPlace</h1>
-        <button-info label="Register" [action]="goToRegister"></button-info>
-        <button-info label="Login" [action]="goToLogin"></button-info>
-        <button-info label="..." [action]="salvar"></button-info>
-    </div>  
-    
-    <router-outlet></router-outlet>
+  <div class="header-buttons">
+    <h1>DTAPlace</h1>
+    <button-info label="Register" [action]="goToRegister"></button-info>
+    <button-info label="Login" [action]="goToLogin"></button-info>
+    <button-info label="..." [action]="salvar"></button-info>
+  </div>
+
+  <app-screen [width]="16" [height]="16"></app-screen>
+
+  <router-outlet></router-outlet>
 </div>

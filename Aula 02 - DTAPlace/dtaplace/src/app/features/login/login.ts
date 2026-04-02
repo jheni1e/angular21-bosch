@@ -32,7 +32,7 @@ export class Login {
       return;
     }
 
-    console.log("Account created successfuly!");
+    console.log("Account logged successfuly!");
     console.log("user: " + this.user + " pw: " + this.pw);
   }
 }

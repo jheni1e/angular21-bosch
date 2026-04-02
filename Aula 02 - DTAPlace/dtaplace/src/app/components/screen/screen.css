@@ -1,0 +1,7 @@
+.tela-canvas {
+  border: 1px solid #000;
+  image-rendering: pixelated;
+  width: 600px;
+  height: 600px;
+  cursor: pointer;
+}
