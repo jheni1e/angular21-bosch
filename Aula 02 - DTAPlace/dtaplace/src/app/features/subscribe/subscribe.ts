@@ -1,4 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { LoginDto } from '../../domain/UserInterfaces';
+import { AuthApi } from '../../domain/auth.api';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-subscribe',
@@ -10,29 +14,41 @@ export class Subscribe {
   @Output()
   dataChange: EventEmitter<string> = new EventEmitter();
 
-  user: string = "";
-  pw: string = "";
+  constructor(private authApi: AuthApi, private router: Router) { }
 
-  userChanged = (e: Event) => {
-    this.user = (e.target as HTMLInputElement).value;
+  subscribeForm : FormGroup = new FormGroup({
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
+  })
+
+  get Username() {
+    return this.subscribeForm.get("username")
   }
 
-  pwChanged(e: Event) {
-    this.pw = (e.target as HTMLInputElement).value;
+  get Password() {
+    return this.subscribeForm.get("password")
   }
 
   submit() {
-    if (!this.pw) {
-      alert('Please type a password.');
+    if (!this.subscribeForm.valid) {
+      alert('Alguns campos estão inválidos.');
       return;
     }
 
-    if (!this.user) {
-      alert('Please type a username.');
-      return;
+    const data: LoginDto  = {
+      username: this.Username?.value,
+      password: this.Password?.value
     }
 
-    console.log("Account created successfuly!");
-    console.log("user: " + this.user + " pw: " + this.pw);
+    this.authApi.subscribe(data).subscribe({
+      next: () => {
+        alert('Cadastro realizado com sucesso!');
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Cadastro falhou.', err);
+        alert('Cadastro falhou: ' + (err.error?.message || 'Unknown error'));
+      }
+    });
   }
 }

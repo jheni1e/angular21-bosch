@@ -1,4 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { LoginDto } from '../../domain/UserInterfaces';
+import { AuthApi } from '../../domain/auth.api';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +14,37 @@ export class Login {
   @Output()
   dataChange: EventEmitter<string> = new EventEmitter();
 
-  user: string = "";
-  pw: string = "";
+  constructor(private authApi: AuthApi, private router: Router) { }
 
-  userChanged = (e: Event) => {
-    this.user = (e.target as HTMLInputElement).value;
+  loginForm: FormGroup = new FormGroup({
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
+  })
+
+  get Username() {
+    return this.loginForm.get("username")
   }
 
-  pwChanged(e: Event) {
-    this.pw = (e.target as HTMLInputElement).value;
+  get Password() {
+    return this.loginForm.get("password")
   }
 
   submit() {
-    if (!this.pw) {
-      alert('Please type a password.');
+    if (!this.loginForm.valid) {
+      alert('Alguns campos estão inválidos.');
       return;
     }
 
-    if (!this.user) {
-      alert('Please type a username.');
-      return;
+    const data: LoginDto = {
+      username: this.Username?.value,
+      password: this.Password?.value
     }
 
-    console.log("Account logged successfuly!");
-    console.log("user: " + this.user + " pw: " + this.pw);
+    this.authApi.login(data).subscribe(
+      res => {
+        console.log(res)
+        sessionStorage.setItem('token', res);
+        location.reload();
+      });
   }
 }
