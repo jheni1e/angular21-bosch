@@ -1,13 +1,13 @@
 <div class="container">
-  <div class="card">
+  <form action="get" [formGroup]="subscribeForm" (ngSubmit)="subscribe()" class="card">
     <h1>Register</h1>
 
     <label>Username</label>
-    <input type="text" placeholder="Type your username here..." (change)="userChanged($event)" />
+    <input type="text" formControlName="username" placeholder="Type your username here..." />
 
     <label>Password</label>
-    <input type="password" placeholder="Type your password here..." (change)="pwChanged($event)" />
+    <input type="password" formControlName="password" placeholder="Type your password here..." />
 
-    <button (click)="submit()">Save</button>
-  </div>
+    <button type="submit">Save</button>
+  </form>
 </div>

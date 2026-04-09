@@ -2,11 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginDto } from '../../domain/UserInterfaces';
 import { AuthApi } from '../../domain/auth.api';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -29,7 +29,7 @@ export class Login {
     return this.loginForm.get("password")
   }
 
-  submit() {
+  login() {
     if (!this.loginForm.valid) {
       alert('Alguns campos estão inválidos.');
       return;
@@ -42,9 +42,9 @@ export class Login {
 
     this.authApi.login(data).subscribe(
       res => {
-        console.log(res)
+        console.log("res", res)
         sessionStorage.setItem('token', res);
-        location.reload();
+        this.router.navigate(['/']);
       });
   }
 }

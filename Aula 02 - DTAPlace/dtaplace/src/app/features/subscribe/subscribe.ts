@@ -2,11 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { LoginDto } from '../../domain/UserInterfaces';
 import { AuthApi } from '../../domain/auth.api';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-subscribe',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './subscribe.html',
   styleUrl: './subscribe.css',
 })
@@ -29,7 +29,7 @@ export class Subscribe {
     return this.subscribeForm.get("password")
   }
 
-  submit() {
+  subscribe() {
     if (!this.subscribeForm.valid) {
       alert('Alguns campos estão inválidos.');
       return;
