@@ -1,15 +1,22 @@
-.tela-canvas {
-  border: 1px solid #000;
-  image-rendering: pixelated;
-  width: 600px;
-  height: 600px;
-  cursor: crosshair;
-}
-
 .tela-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+
+.tela-canvas {
+  border: 1px solid #ccc;
+  image-rendering: pixelated; 
+  cursor: crosshair;
+  width: 600px;
+  height: 600px;
+}
+
+.input-color {
+  width: 50px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  background: none;
 }

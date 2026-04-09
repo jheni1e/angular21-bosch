@@ -7,11 +7,9 @@ import { Component, Input, signal } from '@angular/core';
   styleUrl: './pixel.css',
 })
 export class Pixel {
-  @Input() initialColor = '#fff';
+  color = signal('#fff');
 
-  color = signal(this.initialColor);
-
-  toggleColor() {
-    this.color.set(this.color() === '#fff' ? '#000' : '#fff');
+  @Input() set initialColor(value: string) {
+    this.color.set(value);
   }
 }

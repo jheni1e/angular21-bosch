@@ -1,7 +1,5 @@
 .pixel {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #ccc;
-  display: inline-block;
-  cursor: pointer;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #eee;
 }
