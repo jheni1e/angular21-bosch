@@ -42,7 +42,6 @@ export class Login {
 
     this.authApi.login(data).subscribe(
       res => {
-        console.log("res", res)
         sessionStorage.setItem('token', res);
         this.router.navigate(['/']);
       });

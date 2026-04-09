@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthApi extends Api {
-
   login = (data: LoginDto) : Observable<string> => {
     return this.client.post<string>(`${this.URL}/auth/login`, data).pipe();
   }
