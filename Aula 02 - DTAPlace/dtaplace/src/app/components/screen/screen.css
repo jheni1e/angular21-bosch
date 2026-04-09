@@ -3,5 +3,13 @@
   image-rendering: pixelated;
   width: 600px;
   height: 600px;
-  cursor: pointer;
+  cursor: crosshair;
+}
+
+.tela-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }

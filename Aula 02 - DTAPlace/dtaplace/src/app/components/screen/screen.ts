@@ -11,42 +11,35 @@ export class Screen {
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
 
   private ctx!: CanvasRenderingContext2D;
+
+  private gridSize = 300;
   private pixelSize = 1;
   private color = '#000';
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d')!;
     this.clear();
-    this.drawGrid();
   }
 
   clear() {
     this.ctx.fillStyle = '#fff';
-    this.ctx.fillRect(0, 0, 300, 300);
+    this.ctx.fillRect(0, 0, this.gridSize, this.gridSize);
   }
 
-  drawGrid() {
-    this.ctx.strokeStyle = '#eee';
-    for (let x = 0; x <= 300; x += 1) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(x, 0);
-      this.ctx.lineTo(x, 300);
-      this.ctx.stroke();
-    }
-    for (let y = 0; y <= 300; y += 1) {
-      this.ctx.beginPath();
-      this.ctx.moveTo(0, y);
-      this.ctx.lineTo(300, y);
-      this.ctx.stroke();
-    }
+  setColor(event: any) {
+    this.color = event.target.value;
   }
 
   paintPixel(event: MouseEvent) {
     const rect = this.canvas.nativeElement.getBoundingClientRect();
-    const x = Math.floor(event.clientX - rect.left);
-    const y = Math.floor(event.clientY - rect.top);
+
+    const scaleX = this.gridSize / rect.width;
+    const scaleY = this.gridSize / rect.height;
+
+    const x = Math.floor((event.clientX - rect.left) * scaleX);
+    const y = Math.floor((event.clientY - rect.top) * scaleY);
 
     this.ctx.fillStyle = this.color;
-    this.ctx.fillRect(x, y, this.pixelSize, this.pixelSize);
+    this.ctx.fillRect(x, y, 1, 1);
   }
 }

@@ -1,1 +1,5 @@
-<canvas #canvas width="300" height="300" (click)="paintPixel($event)" class="tela-canvas"> </canvas>
+<div class="tela-container">
+    <canvas #canvas width="300" height="300" (click)="paintPixel($event)" class="tela-canvas"> </canvas>
+    
+    <input type="color" (input)="setColor($event)" />
+</div>

@@ -18,6 +18,8 @@
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgb(239, 243, 244);
     z-index: 1000;
+    width: 100vw;
+    height: 5.5vh;
 }
 
 .header-buttons button-info:last-child {
