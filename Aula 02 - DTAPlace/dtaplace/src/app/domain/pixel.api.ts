@@ -11,13 +11,13 @@ export class PixelApi extends Api {
     return this.client.get<PixelDto[]>(`${this.URL}/pixel`).pipe();
   }
 
-  drawPixel = (data: PixelDto): Observable<PixelDto> => {
+  drawPixel = (data: PixelDto): Observable<void> => {
     const token = sessionStorage.getItem('token');
 
     const headers = {
       'Authorization': `${token}`
     };
 
-    return this.client.post<PixelDto>(`${this.URL}/pixel`, data, { headers }).pipe();
+    return this.client.post<void>(`${this.URL}/pixel`, data, { headers }).pipe();
   }
 }
