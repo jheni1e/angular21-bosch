@@ -13,7 +13,7 @@ import { PixelDto } from '../../domain/PixelInterfaces';
   styleUrl: './main-page.css',
 })
 export class MainPage{
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
   pixels: PixelDto[] = [];
 

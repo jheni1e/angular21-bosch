@@ -18,10 +18,11 @@ export class Screen {
 
   pixels: string[][] = Array.from({ length: 100 }, () => Array(100).fill('#ffffff'));
 
-  constructor(private pixelApi: PixelApi) {}
+  constructor(private pixelApi: PixelApi) { }
 
   ngOnInit() {
     this.pixelApi.getPixel().subscribe((res) => {
+      console.log(res)
       this.applyDataToMatrix(res);
       if (this.ctx) {
         this.drawAll();
@@ -30,15 +31,17 @@ export class Screen {
   }
 
   ngAfterViewInit() {
-    this.initCanvas();
-    this.drawAll();
+    setTimeout(() => {
+      this.initCanvas();
+      this.drawAll();
+    }, 0);
   }
 
   private initCanvas() {
     const canvas = this.canvas.nativeElement;
     canvas.width = canvas.clientWidth || 500;
     canvas.height = canvas.clientHeight || 500;
-    
+
     this.ctx = canvas.getContext('2d')!;
     this.pixelSize = canvas.width / this.gridSize;
   }
@@ -88,5 +91,9 @@ export class Screen {
     if (x < 0 || y < 0 || x >= this.gridSize || y >= this.gridSize) return;
     this.pixels[y][x] = color;
     this.drawPixel(x, y, color);
+  }
+
+  setColor(e: any) {
+    this.color = e.target.value;
   }
 }
