@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-import { PixelDto } from '../../domain/PixelInterfaces';
+import { PaintPixel, PixelDto } from '../../domain/PixelInterfaces';
 import { PixelApi } from '../../domain/pixel.api';
 
 @Component({
@@ -91,6 +91,18 @@ export class Screen {
     if (x < 0 || y < 0 || x >= this.gridSize || y >= this.gridSize) return;
     this.pixels[y][x] = color;
     this.drawPixel(x, y, color);
+
+    const newPixel: PaintPixel = {
+      color: color,
+      lastChange: new Date(),
+      user: {
+        username: sessionStorage.getItem('username')!
+      },
+      x: x,
+      y: y
+    }
+
+    this.pixelApi.drawPixel(newPixel).subscribe(res => console.log(res));
   }
 
   setColor(e: any) {

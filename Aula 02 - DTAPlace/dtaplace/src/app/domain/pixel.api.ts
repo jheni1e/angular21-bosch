@@ -7,7 +7,17 @@ import { PixelDto } from './PixelInterfaces';
   providedIn: 'root',
 })
 export class PixelApi extends Api {
-  getPixel = () : Observable<PixelDto[]> => {
+  getPixel = (): Observable<PixelDto[]> => {
     return this.client.get<PixelDto[]>(`${this.URL}/pixel`).pipe();
+  }
+
+  drawPixel = (data: PixelDto): Observable<PixelDto> => {
+    const token = sessionStorage.getItem('token');
+
+    const headers = {
+      'Authorization': `${token}`
+    };
+
+    return this.client.post<PixelDto>(`${this.URL}/pixel`, data, { headers }).pipe();
   }
 }
