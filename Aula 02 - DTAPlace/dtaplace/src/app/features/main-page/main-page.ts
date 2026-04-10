@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ButtonInfo } from '../../shared/button-info/button-info';
 import { Screen } from '../../components/screen/screen';
-import { AuthApi } from '../../domain/auth.api';
 import { PixelApi } from '../../domain/pixel.api';
+import { PixelDto } from '../../domain/PixelInterfaces';
 
 @Component({
   selector: 'app-main-page',
@@ -12,8 +12,10 @@ import { PixelApi } from '../../domain/pixel.api';
   templateUrl: './main-page.html',
   styleUrl: './main-page.css',
 })
-export class MainPage {
-  constructor(private router: Router, private pixelApi: PixelApi) { }
+export class MainPage{
+  constructor(private router: Router) { }
+
+  pixels: PixelDto[] = [];
 
   goToRegister = () => {
     this.router.navigate(['/register']);
@@ -24,6 +26,6 @@ export class MainPage {
   }
 
   salvar = () => {
-    console.log("...");
+    console.log("...")
   }
 }

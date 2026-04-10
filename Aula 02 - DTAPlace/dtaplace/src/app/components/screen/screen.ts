@@ -1,9 +1,10 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { Pixel } from '../pixel/pixel';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { PixelDto } from '../../domain/PixelInterfaces';
+import { PixelApi } from '../../domain/pixel.api';
 
 @Component({
   selector: 'app-screen',
-  imports: [Pixel],
+  imports: [],
   templateUrl: './screen.html',
   styleUrl: './screen.css',
 })
@@ -11,62 +12,81 @@ export class Screen {
   @ViewChild('canvas') canvas!: ElementRef<HTMLCanvasElement>;
   private ctx!: CanvasRenderingContext2D;
 
-  gridSize = 300;
+  gridSize = 100;
   pixelSize = 1;
-
-  pixels: string[][] = [];
   color = '#000';
 
+  pixels: string[][] = Array.from({ length: 100 }, () => Array(100).fill('#ffffff'));
+
+  constructor(private pixelApi: PixelApi) {}
+
   ngOnInit() {
-    this.pixels = Array.from({ length: this.gridSize }, () =>
-      Array.from({ length: this.gridSize }, () => '#fff')
-    );
+    this.pixelApi.getPixel().subscribe((res) => {
+      this.applyDataToMatrix(res);
+      if (this.ctx) {
+        this.drawAll();
+      }
+    });
   }
 
   ngAfterViewInit() {
-    this.ctx = this.canvas.nativeElement.getContext('2d')!;
+    this.initCanvas();
     this.drawAll();
   }
 
-  setColor(event: any) {
-    this.color = event.target.value;
+  private initCanvas() {
+    const canvas = this.canvas.nativeElement;
+    canvas.width = canvas.clientWidth || 500;
+    canvas.height = canvas.clientHeight || 500;
+    
+    this.ctx = canvas.getContext('2d')!;
+    this.pixelSize = canvas.width / this.gridSize;
   }
 
-  setPixel(x: number, y: number, color: string) {
-    this.pixels[y][x] = color;
-    this.drawPixel(x, y, color);
-  }
-
-  drawPixel(x: number, y: number, color: string) {
-    this.ctx.fillStyle = color;
-    this.ctx.fillRect(x, y, this.pixelSize, this.pixelSize);
+  private applyDataToMatrix(data: PixelDto[]) {
+    data.forEach((pixel) => {
+      if (pixel.x >= 0 && pixel.x < this.gridSize && pixel.y >= 0 && pixel.y < this.gridSize) {
+        this.pixels[pixel.y][pixel.x] = pixel.color;
+      }
+    });
   }
 
   drawAll() {
+    if (!this.ctx) return;
+
+    this.ctx.fillStyle = '#ffffff';
+    this.ctx.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+
     for (let y = 0; y < this.gridSize; y++) {
       for (let x = 0; x < this.gridSize; x++) {
-        this.drawPixel(x, y, this.pixels[y][x]);
+        if (this.pixels[y][x] !== '#ffffff') {
+          this.drawPixel(x, y, this.pixels[y][x]);
+        }
       }
     }
   }
 
+  drawPixel(x: number, y: number, color: string) {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(
+      x * this.pixelSize,
+      y * this.pixelSize,
+      this.pixelSize,
+      this.pixelSize
+    );
+  }
+
   handleClick(event: MouseEvent) {
     const rect = this.canvas.nativeElement.getBoundingClientRect();
+    const x = Math.floor((event.clientX - rect.left) / this.pixelSize);
+    const y = Math.floor((event.clientY - rect.top) / this.pixelSize);
 
-    const scaleX = this.gridSize / rect.width;
-    const scaleY = this.gridSize / rect.height;
-
-    const x = Math.floor((event.clientX - rect.left) * scaleX);
-    const y = Math.floor((event.clientY - rect.top) * scaleY);
-
-    this.sendPixelToAPI(x, y, this.color);
+    this.setPixel(x, y, this.color);
   }
 
-  sendPixelToAPI(x: number, y: number, color: string) {
-    // conecta com a api ?
-  }
-
-  onPixelFromAPI(data: { x: number; y: number; color: string }) {
-    this.setPixel(data.x, data.y, data.color);
+  setPixel(x: number, y: number, color: string) {
+    if (x < 0 || y < 0 || x >= this.gridSize || y >= this.gridSize) return;
+    this.pixels[y][x] = color;
+    this.drawPixel(x, y, color);
   }
 }

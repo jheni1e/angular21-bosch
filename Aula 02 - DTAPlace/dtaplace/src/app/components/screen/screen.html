@@ -1,5 +1,5 @@
 <div class="tela-container">
-    <canvas #canvas width="300" height="300" (click)="handleClick($event)" class="tela-canvas"></canvas>
+    <canvas #canvas (click)="handleClick($event)" class="tela-canvas"></canvas>
     
     <input type="color" (input)="setColor($event)" class="input-color"/>
 </div>

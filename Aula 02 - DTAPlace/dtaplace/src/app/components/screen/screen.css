@@ -7,7 +7,7 @@
 
 .tela-canvas {
   border: 1px solid #ccc;
-  image-rendering: pixelated; 
+  image-rendering: pixelated;
   cursor: crosshair;
   width: 600px;
   height: 600px;
