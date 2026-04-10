@@ -80,6 +80,8 @@ export class Screen {
   }
 
   handleClick(event: MouseEvent) {
+    if (!this.isP)
+      return
     const rect = this.canvas.nativeElement.getBoundingClientRect();
     const x = Math.floor((event.clientX - rect.left) / this.pixelSize);
     const y = Math.floor((event.clientY - rect.top) / this.pixelSize);
@@ -87,8 +89,28 @@ export class Screen {
     this.setPixel(x, y, this.color);
   }
 
+  isP = false;
+  v = new Set<[number, number]>();
+  MU() {
+    this.isP = false
+    this.v = new Set<[number, number]>();
+  }
+  MD(e: MouseEvent) {
+    this.isP = true
+    this.handleClick(e)
+  }
+  a(x: number, y: number) {
+    if (!this.isP)
+      return
+    if (this.v.has([x, y]))
+      return
+    this.v.add([x, y])
+  }
+
   setPixel(x: number, y: number, color: string) {
     if (x < 0 || y < 0 || x >= this.gridSize || y >= this.gridSize) return;
+    if (this.v.has([x, y]))
+      return
     this.pixels[y][x] = color;
     this.drawPixel(x, y, color);
 

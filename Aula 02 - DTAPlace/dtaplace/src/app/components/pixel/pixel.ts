@@ -12,4 +12,6 @@ export class Pixel {
   @Input() set initialColor(value: string) {
     this.color.set(value);
   }
+
+
 }

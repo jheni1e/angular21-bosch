@@ -1,5 +1,11 @@
 <div class="tela-container">
-    <canvas #canvas (click)="handleClick($event)" class="tela-canvas"></canvas>
+    <canvas 
+        #canvas 
+        (mousedown)="MD($event)"
+        (mouseup)="MU()"
+        (mousemove)="handleClick($event)"
+        class="tela-canvas"
+    ></canvas>
     
     <input type="color" (input)="setColor($event)" class="input-color"/>
 </div>
