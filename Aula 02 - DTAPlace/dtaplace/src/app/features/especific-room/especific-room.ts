@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RoomApi } from '../../domain/room.api';
 import { ActivatedRoute } from '@angular/router';
 import { PixelDto } from '../../domain/PixelInterfaces';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-especific-room',
@@ -14,6 +15,7 @@ export class EspecificRoom implements OnInit {
 
   private idRoom: string = "";
   protected pixels = signal<PixelDto[][]>([]);
+  private pixelSubscription!: Subscription;
 
   ngOnInit(): void {
     this.router.paramMap.forEach(param => {
@@ -37,7 +39,7 @@ export class EspecificRoom implements OnInit {
 
     this.roomApi.connect(this.idRoom);
 
-    this.roomApi.pixelsObservable.subscribe(res => {
+    this.pixelSubscription = this.roomApi.pixelsObservable.subscribe(res => {
       switch (res.type) {
         case 'FULL_LOAD':
           this.updateOnInit(res.payload);
@@ -75,5 +77,10 @@ export class EspecificRoom implements OnInit {
 
       return cloneList;
     })
+  }
+
+  ngOnDestroy = () => {
+    this.roomApi.closeConnection();
+    this.pixelSubscription.unsubscribe();
   }
 }
